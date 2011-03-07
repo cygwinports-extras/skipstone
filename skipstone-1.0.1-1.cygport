@@ -1,0 +1,42 @@
+DESCRIPTION="Lightweight GTK+ web browser"
+HOMEPAGE="http://www.muhri.net/skipstone/"
+SRC_URI="http://www.muhri.net/skipstone/${P}.tar.gz"
+
+# order matters here, as the patches overlap
+PATCH_URI="
+	1.0.1-webkit.patch
+	1.0.1-cygwin.patch
+"
+
+src_compile() {
+	lndirs
+	cd ${B}
+	ln -sf config.webkit config.mk
+
+	cd ${B}/src
+	cygmake -f Makefile.webkit enable_nls=1
+
+	cd ${B}/plugins
+	cygmake
+}
+
+src_install() {
+	cd ${B}/src
+	dobin skipdownload.exe skipstone-bin-webkit.exe
+
+	cd ${B}/plugins
+	cygmake install PLUGINDIR=${D}/usr/lib/skipstone/plugins
+
+	cd ${B}/locale
+	cygmake install INSTALL_PREFIX=${D}
+
+	insinto /usr/share/skipstone/pixmaps/default
+	doins ${S}/pixmaps/*.{gif,png}
+
+	insinto /usr/share/icons/hicolor/48x48/apps
+	newins ${S}/icons/skipstone-desktop.png skipstone.png
+	insinto /usr/share/icons/hicolor/32x32/apps
+	newins ${S}/icons/skipstone-desktop2.png skipstone.png
+
+	make_desktop_entry skipstone-bin-webkit "Skipstone" skipstone "Network;WebBrowser;GTK"
+}
