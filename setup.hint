@@ -1,7 +1,0 @@
-category: Web
-requires: libgdk_pixbuf2.0_0 libglib2.0_0 libgtk2.0_0 libwebkitgtk1.0_0 wget
-sdesc: "Lightweight GTK+ web browser"
-ldesc: "SkipStone is a Gtk+ Web Browser that embeds Apple's WebKit 
-rendering component.  It aims to be light and fast with few 
-dependencies. It provides a nice and simple configurable interface, 
-bookmarks and all of the other mandantory browsing features."
